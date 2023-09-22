@@ -1,0 +1,279 @@
+﻿<Window x:Class="PLANSA.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLANSA"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:windows="clr-namespace:PLANSA.ViewModel.Windows"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        Height="1050" 
+        Width="1700"
+        MinHeight="750"
+        MinWidth="1000"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        ResizeMode="CanResize"
+        Background="Transparent">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.DataContext>
+        <windows:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!--Топ бар-->
+            <Border Grid.Row="0"
+                Background="#212121"
+                MouseLeftButtonDown="Border_MouseLeftButtonDown">
+                <Grid>
+                    <Label Content="PLANSA"
+                       Foreground="White"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       VerticalContentAlignment="Center"
+                       FontSize="20"
+                       FontWeight="UltraLight"
+                       Margin="10,0,0,0"/>
+
+                    <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right">
+                        <Button Style="{StaticResource HotButtons}"
+                            Margin="0,0,5,0"
+                            Command="{Binding MinimizeCommand}">
+                            <materialDesign:PackIcon Style="{StaticResource HotIcons}"
+                                                 Kind="WindowMinimize"/>
+                        </Button>
+
+                        <Button Style="{StaticResource HotButtons}"
+                            Margin="0,0,5,0"
+                            Command="{Binding MaximizeCommand}">
+                            <materialDesign:PackIcon Style="{StaticResource HotIcons}"
+                                                 Kind="WindowMaximize"/>
+                        </Button>
+
+                        <Button Style="{StaticResource HotButtons}"
+                            Margin="0,0,5,0"
+                            Command="{Binding CloseAppCommand}">
+                            <materialDesign:PackIcon Style="{StaticResource HotIcons}"
+                                                 Kind="Close"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!--Основное полотно-->
+            <Border Background="#323232"
+                Grid.Row="1"
+                CornerRadius="0,0,10,10" Grid.RowSpan="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.2*"
+                                      MinWidth="270"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Навигация-->
+                    <Border Background="#212121"
+                        BorderThickness="0,0.25,0,0"
+                        BorderBrush="#323232">
+                        <Grid>
+                            <StackPanel Orientation="Vertical"
+                                Margin="10">
+
+                                <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,50,0,0">
+                                    <materialDesign:PackIcon Kind="Home"
+                                                     Style="{StaticResource NavigationIcons}"/>
+
+                                    <Button Content="ГЛАВНАЯ"
+                                        Style="{StaticResource NavigationButtons}"
+                                        Command="{Binding OpenMainPageCommand}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,35,0,0">
+                                    <materialDesign:PackIcon Kind="PlusBox"
+                                                     Style="{StaticResource NavigationIcons}"/>
+
+                                    <Button Content="ДОБАВИТЬ"
+                                        Style="{StaticResource NavigationButtons}"
+                                        Command="{Binding OpenCreatePageCommand}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,35,0,0">
+                                    <materialDesign:PackIcon Kind="EditBox"
+                                                     Style="{StaticResource NavigationIcons}"/>
+
+                                    <Button Content="РЕДАКТОР"
+                                        Style="{StaticResource NavigationButtons}"
+                                        Command="{Binding OpenWarningCommand}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,35,0,0">
+                                    <materialDesign:PackIcon Kind="EyeCheck"
+                                                     Style="{StaticResource NavigationIcons}"/>
+
+                                    <Button Content="ОБЗОР"
+                                        Style="{StaticResource NavigationButtons}"
+                                        Command="{Binding OpenReviewPageCommand}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,35,0,0"
+                                    Visibility="Hidden">
+                                    <materialDesign:PackIcon Kind="Toolbox"
+                                                     Style="{StaticResource NavigationIcons}"/>
+
+                                    <Button Content="СЕРВИСЫ"
+                                    Style="{StaticResource NavigationButtons}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,35,0,0"
+                                        Visibility="Hidden">
+                                    <materialDesign:PackIcon Kind="AccountBox"
+                                                     Style="{StaticResource NavigationIcons}"/>
+
+                                    <Button Content="КАБИНЕТ"
+                                    Style="{StaticResource NavigationButtons}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,35,0,0"
+                                        Visibility="Hidden">
+                                    <materialDesign:PackIcon Kind="Settingsbox"
+                                                     Style="{StaticResource NavigationIcons}"/>
+
+                                    <Button Content="НАСТРОЙКИ"
+                                    Style="{StaticResource NavigationButtons}"/>
+                                </StackPanel>
+
+
+                            </StackPanel>
+
+                            <Label Content="v.0.1.1"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               VerticalContentAlignment="Center"
+                               FontSize="15"
+                               FontWeight="UltraLight"/>
+
+                        </Grid>
+                    </Border>
+                    <!--Контент страниц-->
+                    <Frame Grid.Column="1"
+                       NavigationUIVisibility="Hidden"
+                       Content="{Binding ChoicePage}"/>
+                </Grid>
+            </Border>
+            
+            <Grid.Effect>
+                <BlurEffect x:Name="MainGridBlur" Radius="{Binding BlurRadius, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" KernelType="Gaussian"/>
+            </Grid.Effect>
+        </Grid>
+        <Border Grid.Column="0"
+                Grid.ColumnSpan="5"
+                Grid.RowSpan="5"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Width="400"
+                Height="200"               
+                CornerRadius="10"
+                Visibility="{Binding WarningVisibility, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+            <Grid Width="400"
+                  Height="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="35"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0"
+                        Grid.RowSpan="3"
+                        Background="#1D1F20"
+                        CornerRadius="10"
+                        BorderThickness="1.5,0,1.5,1.5"
+                        BorderBrush="#393E46">
+                </Border>
+
+                <Border Grid.Row="0"
+                        Background="#18222B"
+                        CornerRadius="10,10,0,0"
+                        BorderThickness="1.5,1.5,1.5,0"
+                        BorderBrush="#393E46">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="WarningBox"
+                                             Foreground="White"
+                                             Height="30"
+                                             Width="30"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"
+                                             Margin="5,0,0,0"/>
+                        <TextBlock Grid.Row="1"
+                           Foreground="White"
+                           TextWrapping="Wrap"
+                           FontSize="15"
+                           Margin="10,0,0,0"
+                           Text="Предупреждение"
+                           VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Grid.Row="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button Height="30"
+                            Width="85"
+                            Background="White"
+                            materialDesign:ButtonAssist.CornerRadius="3"
+                            Margin="0,0,10,5"
+                            BorderThickness="0"
+                            Content="Да"
+                            Foreground="Black"
+                            FontWeight="UltraLight"
+                            Command="{Binding OpenEditPageCommand}"/>
+
+                    <Button Height="30"
+                            Width="85"
+                            Background="White"
+                            materialDesign:ButtonAssist.CornerRadius="3"
+                            Margin="0,0,5,5"
+                            Content="Отмена"
+                            Foreground="Black"
+                            FontWeight="UltraLight"
+                            BorderThickness="0"
+                            Command="{Binding CancelCommand}"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="1"
+                           Foreground="White"
+                           TextWrapping="Wrap"
+                           FontSize="15"
+                           Margin="10,5,5,5"
+                           Text="{Binding TextWarning, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

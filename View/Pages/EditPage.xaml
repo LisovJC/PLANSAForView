@@ -1,0 +1,488 @@
+﻿<Page x:Class="PLANSA.View.Pages.EditPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+      xmlns:vm="clr-namespace:PLANSA.ViewModel.Pages"       
+      mc:Ignorable="d" 
+      d:DesignHeight="1000" 
+      d:DesignWidth="1000"
+      Title="MainPage">
+
+    <Page.DataContext>
+        <vm:EditPageViewModel/>
+    </Page.DataContext>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoadCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Background="#323232">
+
+        <!--Главная сетка-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.6*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!--Лого-->
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2">
+
+            <materialDesign:PackIcon Style="{StaticResource HeaderIcon}"
+                                     Kind="EditBox"/>
+
+            <Label Content="Редактор"                   
+                   Style="{StaticResource HeaderLabel}"/>
+
+        </StackPanel>
+
+        <!--Функциональные кнопки-->
+        <StackPanel Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Margin="0,0,10,0">
+            
+            <Button Style="{StaticResource ActionButtons}"
+                    Command="{Binding SaveChangesCommand}"
+                    ToolTip="Сохранить изменения">
+
+                <materialDesign:PackIcon Kind="ContentSave"   
+                                         Width="28"
+                                         Height="28"
+                                         Foreground="#212121"/>
+            </Button>
+
+            <Button Style="{StaticResource ActionButtons}"
+                    Command="{Binding AddAdvancedPlanCommand}">
+
+                <materialDesign:PackIcon Kind="PlusBox"
+                                         Width="28"
+                                         Height="28"
+                                         Foreground="#212121"/>
+            </Button>
+
+            <Button Style="{StaticResource ActionButtons}"
+                    Command="{Binding RemoveAdvancedPlanCommand}">
+
+                <materialDesign:PackIcon Kind="MinusBox"
+                                         Width="28"
+                                         Height="28"
+                                         Foreground="#212121"/>
+            </Button>
+
+            <Button Style="{StaticResource ActionButtons}"
+                    Command="{Binding AddFileCommand}">
+
+                <materialDesign:PackIcon Kind="FileDocumentAdd"
+                                         Width="28"
+                                         Height="28"
+                                         Foreground="#212121"/>
+            </Button>
+
+            <Button Style="{StaticResource ActionButtons}"
+                    Command="{Binding RemoveFileCommand}">
+
+                <materialDesign:PackIcon Kind="FileDocumentMinus"
+                                         Width="28"
+                                         Height="28"
+                                         Foreground="#212121"/>
+            </Button>
+
+            <Button Style="{StaticResource ActionButtons}"
+                    Command="{Binding RemovePlanCommand}">
+
+                <materialDesign:PackIcon Kind="Delete"
+                                         Width="28"
+                                         Height="28"
+                                         Foreground="#212121"/>
+            </Button>
+
+        </StackPanel>
+
+        <Border  HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch"
+                 Background="#212121"
+                 Grid.Row="1"
+                 Grid.Column="0"
+                 Margin="5,0,0,5"
+                 CornerRadius="8">
+
+            <!--Панели всех задач-->
+
+            <DockPanel  HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+
+                <Label Style="{StaticResource HeaderInfoLabels}"
+                       Content="Текущие планы:"
+                       DockPanel.Dock="Top"/>
+
+                <ScrollViewer>
+
+                    <ListBox Margin="5"
+                             HorizontalAlignment="Stretch"
+                             Grid.Column="0"
+                             VerticalAlignment="Stretch"
+                             Height="auto"
+                             Width="auto"
+                             ItemsSource="{Binding Plans}"
+                             SelectedIndex="{Binding SelectedPlanIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                        <ListBox.ItemTemplate>
+
+                            <DataTemplate>
+
+                                <Grid Background="Transparent">
+
+                                    <StackPanel Orientation="Vertical">
+
+                                        <Border Margin="5"
+                                                Height="120"
+                                                Background="{Binding PriorityFlat, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                BorderThickness="0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                CornerRadius="10">
+
+                                            <Label Content="{Binding PlanHeader}"
+                                                   Foreground="Black"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize="35"
+                                                   FontWeight="UltraLight"
+                                                   Margin="10,0,0,0"/>
+                                        </Border>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Right">
+                                        <materialDesign:PackIcon Kind="CheckCircle"
+                                                                 Foreground="White"
+                                                                 Margin="0,0,10,0"
+                                                                 Height="50"
+                                                                 Width="50"
+                                                                 HorizontalAlignment="Right"
+                                                                 VerticalAlignment="Center"
+                                                                 Visibility="{Binding Complete, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        <materialDesign:PackIcon Kind="Dangerous"
+                                                                 Foreground="#D72323"
+                                                                 Margin="0,0,10,0"
+                                                                 Height="50"
+                                                                 Width="50"
+                                                                 HorizontalAlignment="Right"
+                                                                 VerticalAlignment="Center"
+                                                                 Visibility="{Binding Failed, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        <materialDesign:PackIcon Kind="BookMark"
+                                                                 Foreground="White"
+                                                                 Margin="0,0,10,0"
+                                                                 Height="50"
+                                                                 Width="50"
+                                                                 HorizontalAlignment="Right"
+                                                                 VerticalAlignment="Center"
+                                                                 Visibility="{Binding Favorite, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        <materialDesign:PackIcon Kind="Eye"
+                                                                 Foreground="White"
+                                                                 Margin="0,0,15,0"
+                                                                 Height="50"
+                                                                 Width="50"
+                                                                 HorizontalAlignment="Right"
+                                                                 VerticalAlignment="Center"
+                                                                 Visibility="{Binding ThisOnPlanIcon, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+
+
+                                    <Grid.InputBindings>
+
+                                        <MouseBinding MouseAction="LeftDoubleClick"
+                                                      Command="{Binding DataContext.OpenMoreInformationOfPlan, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+
+                                    </Grid.InputBindings>
+
+                                </Grid>
+
+                            </DataTemplate>
+
+                        </ListBox.ItemTemplate>
+
+                        <ListBox.ItemContainerStyle>
+
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+
+                        </ListBox.ItemContainerStyle>
+
+
+                    </ListBox>
+
+                </ScrollViewer>
+
+            </DockPanel>
+
+        </Border>
+
+        <!--Детали плана-->
+
+        <Border   HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Background="Transparent"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Margin="5,0,5,5"
+                  CornerRadius="8"
+                  BorderBrush="#212121"
+                  BorderThickness="3">
+
+            <Grid>
+
+                <WrapPanel>
+
+                    <StackPanel>
+                        <Label Style="{StaticResource HeaderInfoLabels}"
+                                   Content="Заголовок:"/>
+
+                        <Border Style="{StaticResource ContentBorder}"
+                                Margin="10,5,0,10"
+                                DockPanel.Dock="Top">
+
+                            <TextBox Style="{StaticResource InputFieldsInfo}"
+                                     IsReadOnly="False"
+                                     Text="{Binding PlanHeader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <Label Style="{StaticResource HeaderInfoLabels}"
+                               Content="Срок сдачи:"/>
+
+                        <Border Style="{StaticResource ContentBorder}"
+                                Margin="10,5,0,0"
+                                DockPanel.Dock="Top">
+
+                            <TextBox     Style="{StaticResource InputFieldsInfo}"
+                                         IsReadOnly="False"
+                                         Text="{Binding DeadLine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <Label Style="{StaticResource HeaderInfoLabels}"
+                               Content="Осталось часов:"/>
+
+                        <Border Style="{StaticResource ContentBorder}"
+                                Margin="10,5,0,0"
+                                DockPanel.Dock="Top">
+
+                            <TextBox     Style="{StaticResource InputFieldsInfo}"
+                                         IsReadOnly="True"
+                                         Text="{Binding HoursRemained, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <Label Style="{StaticResource HeaderInfoLabels}"
+                               Content="Осталось дней:"/>
+
+                        <Border Style="{StaticResource ContentBorder}"
+                                Margin="10,5,0,0"
+                                DockPanel.Dock="Top">
+
+                            <TextBox     Style="{StaticResource InputFieldsInfo}"
+                                         IsReadOnly="True"
+                                         Text="{Binding DaysRemained, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <Label Style="{StaticResource HeaderInfoLabels}"
+                               Content="Цветовой статус:"/>
+
+                        <Border Background="{Binding Priority, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="10,5,0,10"
+                                CornerRadius="10"
+                                DockPanel.Dock="Top">
+
+                            <Label Style="{StaticResource HeaderInfoLabels}"
+                                   Foreground="Transparent"
+                                   Margin="0"
+                                   Content="{Binding PlanHeader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        </Border>
+                    </StackPanel>
+
+                    <DockPanel Grid.Row="1"
+                               Grid.RowSpan="2"
+                               Margin="10"
+                               VerticalAlignment="Stretch"
+                               HorizontalAlignment="Stretch">
+
+                        <Label Style="{StaticResource HeaderInfoLabels}"
+                               Margin="0,0,0,5"
+                               Content="Содержание/заметки:"
+                               DockPanel.Dock="Top"/>
+
+                        <Border  Style="{StaticResource ContentBorder}"
+                                 DockPanel.Dock="Top">
+
+                            <TextBox Style="{StaticResource InputFieldsInfo}"
+                                     IsReadOnly="False"
+                                     Text="{Binding PlanContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Border>
+                    </DockPanel>
+
+                    <DockPanel  Grid.Column="1"
+                            Grid.RowSpan="2"
+                            Grid.Row="1"
+                            Margin="10"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch">
+
+                        <Label Style="{StaticResource HeaderInfoLabels}"
+                           Margin="0,0,0,5"
+                           Content="Файлы:"
+                           DockPanel.Dock="Top"/>
+
+                        <Border Style="{StaticResource ContentBorder}">
+
+                            <ListBox  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                  Height="auto"
+                                  Width="auto" 
+                                  SelectedIndex="{Binding SelectedIndexFiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  ItemsSource="{Binding Files, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                                <ListBox.ItemTemplate>
+
+                                    <DataTemplate>
+
+                                        <Grid>
+
+                                            <StackPanel Orientation="Horizontal"
+                                                    MinWidth="400">
+
+                                                <materialDesign:PackIcon Kind="{Binding IconKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                     Foreground="Black"
+                                                                     Margin="10,15,0,0"
+                                                                     Width="20"
+                                                                     Height="20"/>
+
+                                                <TextBlock Text="{Binding FileName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       Foreground="Black"
+                                                       FontSize="20"
+                                                       FontWeight="UltraLight"
+                                                       Padding="0"
+                                                       MinWidth="400"
+                                                       Margin="10"
+                                                       TextWrapping="Wrap"
+                                                       FontFamily="Bahnschrift"
+                                                       HorizontalAlignment="Stretch"/>
+
+                                            </StackPanel>
+                                            <Grid.InputBindings>
+
+                                                <MouseBinding MouseAction="LeftDoubleClick"
+                                                          Command="{Binding DataContext.OpenFileCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+
+                                            </Grid.InputBindings>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+                    </DockPanel>
+
+                    <DockPanel Grid.RowSpan="1"
+                           Grid.Column="2"
+                           Margin="10,0,0,0">
+
+                        <Label Style="{StaticResource HeaderInfoLabels}"
+                           Content="Подзадачи:"
+                           DockPanel.Dock="Top"/>
+
+                        <Border Style="{StaticResource ContentBorder}"
+                            Margin="0,3.75,0,0">
+
+                            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                      Margin="5, 5, 5, 5"
+                                      VerticalAlignment="Stretch"
+                                      materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+
+                                <ListBox HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"
+                                     Height="auto"
+                                     Width="auto" 
+                                     SelectedIndex="{Binding SelectedIndexAdvancedPlans, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     ItemsSource="{Binding AdvancedPlans, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                                    <ListBox.ItemTemplate>
+
+                                        <DataTemplate>
+
+                                            <Grid>
+
+                                                <StackPanel Orientation="Horizontal"
+                                                        Margin="0,5,0,0">
+
+                                                    <CheckBox materialDesign:CheckBoxAssist.CheckBoxSize="27"
+                                                          Foreground="#212121"
+                                                          Background="#212121"                                                 
+                                                          FontSize="15"
+                                                          Margin="0,0,0,0"
+                                                          FontFamily="Bahnschrift"
+                                                          IsEnabled="True"
+                                                          Command="{Binding PressCommand}"
+                                                          IsChecked="{Binding IsCheck, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                                    <TextBox HorizontalAlignment="Center"
+                                                         Foreground="#212121"
+                                                         Margin="10,0,0,0"
+                                                         FontSize="23"
+                                                         FontFamily="Bahnschrift"
+                                                         VerticalAlignment="Center"
+                                                         materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
+                                                         Padding="0"
+                                                         BorderThickness="0"
+                                                         AcceptsReturn="True"
+                                                         TextWrapping="Wrap"
+                                                         materialDesign:HintAssist.Hint="Какая у нас подзадача?.."
+                                                         Text="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="LostFocus">
+                                                                <i:InvokeCommandAction Command="{Binding TextedCommand}"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </TextBox>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </ScrollViewer>
+                        </Border>
+                    </DockPanel>
+                </WrapPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
